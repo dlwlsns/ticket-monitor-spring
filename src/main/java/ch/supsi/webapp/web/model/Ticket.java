@@ -1,37 +1,25 @@
-package ch.supsi.webapp;
+package ch.supsi.webapp.web.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Ticket {
     private String id;
     private String title;
     private String description;
     private String author;
-    private static int counter = 0;
 
     public Ticket() {
-        this.id = ""+counter;
+        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.title = "";
         this.description = "";
         this.author = "";
-
-        counter++;
     }
 
     public Ticket(String title, String description, String author) {
-        this.id = ""+counter;
+        this.id = RandomStringUtils.randomAlphanumeric(8);;
         this.title = title;
         this.description = description;
         this.author = author;
-
-        counter++;
-    }
-
-    public void setTicket(Ticket newTicket){
-        this.title = newTicket.getTitle();
-        this.description = newTicket.getDescription();
-        this.author = newTicket.getAuthor();
     }
 
     public void setId(String id){
@@ -64,9 +52,5 @@ public class Ticket {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getJSON(ObjectMapper mapper) throws JsonProcessingException {
-        return mapper.writeValueAsString(this);
     }
 }
