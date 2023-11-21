@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping(value="/register")
-    public String postNewTicket(@RequestParam("surname") String surname,
+    public String postNewUser(@RequestParam("surname") String surname,
                                 @RequestParam("name") String name,
                                 @RequestParam("username") String username,
                                 @RequestParam("password") String password) {
@@ -34,6 +34,6 @@ public class UserController {
 
         this.userService.post(user);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
