@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Homepage of the website">
+        <meta name="keywords" content="HTML, Home, Tickets">
+        <meta name="author" content="Davide Ravani">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="css/general.css" media="screen"/>
+
+        <title>Home</title>
+    </head>
+    <body>
+        <header  class="header">
+            <img src="img/logo_supsi.png" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+
+            <nav class="header-left">
+                <a href="index.html" class="active">Home</a>
+                <a href="createTicketForm.html">Add Ticket</a>
+            </nav>
+        </header>
+
+        <main class="container">
+            <article class="ticket-list">
+                <h2>List of tickets</h2>
+                <article class="ticket first">
+                    <h3>
+                        Pipeline non funziona
+                        <select id="state" name="state" disabled class="state in-progress">
+                            <option value="open">Open</option>
+                            <option value="in_progress" selected>In Progress</option>
+                            <option value="done">Done</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <span class="tag"><a href="ticket1Details.html">#3qCKiOMu</a></span>
+                    </h3>
+
+                    <span>05 March 2018</span>
+
+                    <p>La pipeline di ingegneria ...</p>
+                </article>
+
+                <article class="ticket">
+                    <h3>
+                        Problema internet
+                        <select disabled class="state open">
+                            <option value="open" selected>Open</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="done">Done</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <span class="tag"><a href="ticket2Details.html">#VXSHz2Oa</a></span>
+                    </h3>
+
+                    <span>2 March 2013</span>
+
+                    <p>La rete della SUPSI ...</p>
+                </article>
+
+                <article class="ticket last">
+                    <h3>
+                        Persona dispersa
+                        <select disabled class="state done">
+                            <option value="open">Open</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="done" selected>Done</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <span class="tag"><a href="ticket3Details.html">#yD4eEsD4</a></span>
+                    </h3>
+
+                    <span>03 March 2018</span>
+
+                    <p>Non so se questo ...</p>
+                </article>
+            </article>
+
+            <aside class="aside">
+                <h2>Side</h2>
+                <p>Questa è la mia sidebar, al momento è vuota.</p>
+            </aside>
+        </main>
+
+        <footer> <!-- site wide footer -->
+            <p class="copyright">Copyleft CC-by 2022 by Ravani D.</p>
+        </footer>
+    </body>
+</html>

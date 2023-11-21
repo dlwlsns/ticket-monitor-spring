@@ -7,12 +7,23 @@
         <meta name="author" content="Davide Ravani">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="stylesheet" type="text/css" href="css/general.css" media="screen"/>
+
         <title>New Ticket</title>
     </head>
     <body>
+        <header  class="header">
+            <img src="img/logo_supsi.png" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+
+            <nav class="header-left">
+                <a href="index.html">Home</a>
+                <a href="createTicketForm.html" class="active">Add Ticket</a>
+            </nav>
+        </header>
+
         <main>
             <h1>Add a new ticket</h1>
-            <form method="post">
+            <form method="post" class="form">
                 <label for="title">Title:</label><br>
                 <input type="text" id="title" name="title"><br>
 
@@ -38,10 +49,7 @@
         </main>
 
         <footer> <!-- site wide footer -->
-            <nav>
-                <p><a href="index.html">Ticket List</a></p>
-            </nav>
-            <p>Copyleft CC-by 2022 by Ravani D.</p>
+            <p class="copyright">Copyleft CC-by 2022 by Ravani D.</p>
         </footer>
     </body>
 </html>
