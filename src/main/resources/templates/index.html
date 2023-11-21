@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Homepage of the website">
+        <meta name="keywords" content="HTML, Home, Tickets">
+        <meta name="author" content="Davide Ravani">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}" media="screen"/>
+
+        <title>Home</title>
+    </head>
+    <body>
+        <header  class="header">
+            <img th:src="@{/img/logo_supsi.png}" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+
+            <nav class="header-left">
+                <a th:href="@{/}" class="active">Home</a>
+                <a th:href="@{/ticket/new}">Add Ticket</a>
+            </nav>
+        </header>
+
+        <main class="container">
+            <section id="ticket-list">
+                <h2>List of tickets</h2>
+                <article class="ticket first" th:each="ticket: ${tickets}">
+                    <h3 th:text="${ticket.title}"></h3>
+
+                    <select id="state" name="state" disabled class="state" th:classappend="${ticket.status.toString().toLowerCase().replace(' ', '-')}">
+                        <option th:each="status : ${T(ch.supsi.webapp.web.model.Status).values()}"
+                                th:value="${status}"
+                                th:text="${status}"
+                                th:selected="${status.toString() == ticket.status.toString()}">
+                        </option>
+                    </select>
+
+                    <a class="tag" th:text="${'#' + ticket.id}" th:href="@{'/ticket/' + ${ticket.id}}">#ID</a>
+
+                    <span th:text="${ticket.date}">Date</span>
+
+                    <p th:text="${#strings.abbreviate(ticket.description,20)}">Description</p>
+                </article>
+            </section>
+
+            <aside class="aside">
+                <h2>Side</h2>
+                <p>Questa è la mia sidebar, al momento è vuota.</p>
+            </aside>
+        </main>
+
+        <footer> <!-- site wide footer -->
+            <small>Copyleft CC-by 2022 by Ravani D.</small>
+        </footer>
+    </body>
+</html>

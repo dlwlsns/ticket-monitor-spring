@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Details of ticket 1">
+        <meta name="keywords" content="HTML, Home, Ticket">
+        <meta name="author" content="Davide Ravani">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}" media="screen"/>
+
+        <title>New Ticket</title>
+    </head>
+    <body>
+        <header  class="header">
+            <img th:src="@{/img/logo_supsi.png}" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+
+            <nav class="header-left">
+                <a th:href="@{/}">Home</a>
+                <a th:href="@{/ticket/new}" class="active">Add Ticket</a>
+            </nav>
+        </header>
+
+        <main>
+            <h1>Add a new ticket</h1>
+            <form method="post" th:action="@{/ticket/new}" class="form">
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title" required><br>
+
+                <label for="type">Type:</label><br>
+                <select name="type" required>
+                    <option th:each="type : ${T(ch.supsi.webapp.web.model.Type).values()}"
+                            th:value="${type}"
+                            th:text="${type}">
+                    </option>
+                </select><br>
+
+                <label for="author">Author:</label><br>
+                <select name="author" required>
+                    <option th:each="author : ${authors}"
+                            th:value="${author.id}"
+                            th:text="${author.name + ' ' + author.surname}">
+                    </option>
+                </select><br>
+
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </main>
+
+        <footer> <!-- site wide footer -->
+            <small>Copyleft CC-by 2022 by Ravani D.</small>
+        </footer>
+    </body>
+</html>

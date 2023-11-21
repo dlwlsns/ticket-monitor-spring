@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Details of ticket">
+        <meta name="keywords" content="HTML, Home, Ticket">
+        <meta name="author" content="Davide Ravani">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}" media="screen"/>
+
+        <title th:text="${'Ticket ' + ticket.id}">Ticket ID</title>
+    </head>
+
+    <body>
+        <header  class="header">
+            <img th:src="@{/img/logo_supsi.png}" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+
+            <nav class="header-left">
+                <a th:href="@{/}" class="active">Home</a>
+                <a th:href="@{/ticket/new}">Add Ticket</a>
+            </nav>
+        </header>
+
+        <main>
+            <h1 th:text="${'Ticket #' + ticket.id}">Ticket ID</h1>
+            <form method="post" th:action="@{'/ticket/' + ${ticket.id} + '/edit'}" class="form">
+                <label>Title</label>
+                <input type="text" id="title" name="title" th:value="${ticket.title}" required pattern="\S+.*" th:disabled="${!editable}"><br>
+
+                <label>Status</label>
+                <select name="status" required th:disabled="${!editable}">
+                    <option th:each="status : ${T(ch.supsi.webapp.web.model.Status).values()}"
+                            th:value="${status}"
+                            th:text="${status}"
+                            th:selected="${status.toString() == ticket.status.toString()}">
+                    </option>
+                </select><br>
+
+                <label>Author</label>
+                <select name="author" required th:disabled="${!editable}">
+                    <option th:each="author : ${authors}"
+                            th:value="${author.id}"
+                            th:text="${author.name + ' ' + author.surname}"
+                            th:selected="${ticket.author.id==author.id}">
+                    </option>
+                </select><br>
+
+                <label>Date</label>
+                <input type="date" id="date" name="date" th:value="${ticket.date}" required disabled><br>
+
+                <label>Type</label>
+                <select name="type" required th:disabled="${!editable}">
+                    <option th:each="type : ${T(ch.supsi.webapp.web.model.Type).values()}"
+                            th:value="${type}"
+                            th:text="${type}"
+                            th:selected="${type.toString() == ticket.type.toString()}">
+                    </option>
+                </select><br>
+
+                <label>Description</label>
+                <textarea id="description" name="description" rows="4" cols="50" th:text="${ticket.description}" required th:disabled="${!editable}">Description</textarea><br>
+
+                <a class="button edit" th:href="@{'/ticket/' + ${ticket.id} + '/edit'}" th:if="${!editable}">Edit</a>
+                <input type="submit" value="Save" th:if="${editable}">
+                <a class="button edit" th:href="@{'/ticket/' + ${ticket.id}}" th:if="${editable}">Cancel</a>
+                <a class="button delete" th:href="@{'/ticket/' + ${ticket.id} + '/delete'}">Delete</a>
+            </form>
+        </main>
+
+        <footer> <!-- site wide footer -->
+            <small>Copyleft CC-by 2022 by Ravani D.</small>
+        </footer>
+    </body>
+</html>

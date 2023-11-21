@@ -36,6 +36,7 @@ public class TicketService {
             //TODO: check if user exists
             newTicket.setAuthor(ticket.getAuthor());
             newTicket.setStatus(ticket.getStatus());
+            newTicket.setType(ticket.getType());
 
             currentTicket = Optional.of(newTicket);
 

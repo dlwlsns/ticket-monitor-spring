@@ -2,17 +2,17 @@ package ch.supsi.webapp.web;
 
 import ch.supsi.webapp.web.model.Status;
 import ch.supsi.webapp.web.model.Ticket;
+import ch.supsi.webapp.web.model.Type;
 import ch.supsi.webapp.web.model.User;
 import ch.supsi.webapp.web.repository.TicketRepository;
 import ch.supsi.webapp.web.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class WebApplication {
@@ -35,9 +35,10 @@ public class WebApplication {
 
 				List<Ticket> tickets = new ArrayList<>();
 
-				tickets.add(new Ticket("Problema internet", "La rete della SUPSI a volte non funziona.", users.get(0), Status.OPEN));
-				tickets.add(new Ticket("Pipeline non funziona", "La pipeline di ingegneria del software 2 non funziona, send help.", users.get(2), Status.IN_PROGRESS));
-				tickets.add(new Ticket("Persona dispersa", "Non so se questo è il posto giusto, ma non trovo più Minnie.", users.get(1), Status.DONE));
+				tickets.add(new Ticket("Problema internet", "La rete della SUPSI a volte non funziona.", users.get(0), Status.OPEN, Type.ISSUE));
+				tickets.add(new Ticket("Pipeline non funziona", "La pipeline di ingegneria del software 2 non funziona, send help.", users.get(2), Status.IN_PROGRESS, Type.TASK));
+				tickets.add(new Ticket("Persona dispersa", "Non so se questo è il posto giusto, ma non trovo più Minnie.", users.get(1), Status.DONE, Type.INVESTIGATION));
+				tickets.add(new Ticket("AAAA", "CCCC", users.get(1), Status.DONE, Type.INVESTIGATION));
 
 				ticketRepository.saveAll(tickets);
 			}
