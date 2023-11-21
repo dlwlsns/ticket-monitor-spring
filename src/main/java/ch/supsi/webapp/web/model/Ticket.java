@@ -11,8 +11,9 @@ public class Ticket {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
-    @JoinColumn(name = "author")
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -24,11 +25,11 @@ public class Ticket {
         this.status = Status.OPEN;
     }
 
-    public Ticket(String title, String description, String authorId, Status status) {
+    public Ticket(String title, String description, User author, Status status) {
         this.id = RandomStringUtils.randomAlphanumeric(8);
         this.title = title;
         this.description = description;
-        this.author = authorId;
+        this.author = author;
         this.status = status;
     }
 
@@ -56,11 +57,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return this.author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

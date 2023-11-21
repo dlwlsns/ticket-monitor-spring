@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Details of ticket 1">
+        <meta name="keywords" content="HTML, Home, Ticket">
+        <meta name="author" content="Davide Ravani">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>New Ticket</title>
+    </head>
+    <body>
+        <main>
+            <h1>Add a new ticket</h1>
+            <form method="post">
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title"><br>
+
+                <label for="author">Author:</label><br>
+                <input type="text" id="author" name="author"><br>
+
+                <label for="date">Date:</label><br>
+                <input type="date" id="date" name="date"><br>
+
+                <label for="state">State:</label><br>
+                <select id="state" name="state">
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="done">Done</option>
+                    <option value="closed">Closed</option>
+                </select><br>
+
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </main>
+
+        <footer> <!-- site wide footer -->
+            <nav>
+                <p><a href="index.html">Ticket List</a></p>
+            </nav>
+            <p>Copyleft CC-by 2022 by Ravani D.</p>
+        </footer>
+    </body>
+</html>

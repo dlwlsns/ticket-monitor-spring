@@ -35,9 +35,9 @@ public class WebApplication {
 
 				List<Ticket> tickets = new ArrayList<>();
 
-				tickets.add(new Ticket("Problema internet", "La rete della SUPSI a volte non funziona.", users.get(0).getId(), Status.OPEN));
-				tickets.add(new Ticket("Pipeline non funziona", "La pipeline di ingegneria del software 2 non funziona, send help.", users.get(2).getId(), Status.IN_PROGRESS));
-				tickets.add(new Ticket("Persona dispersa", "Non so se questo è il posto giusto, ma non trovo più Minnie.", users.get(1).getId(), Status.DONE));
+				tickets.add(new Ticket("Problema internet", "La rete della SUPSI a volte non funziona.", users.get(0), Status.OPEN));
+				tickets.add(new Ticket("Pipeline non funziona", "La pipeline di ingegneria del software 2 non funziona, send help.", users.get(2), Status.IN_PROGRESS));
+				tickets.add(new Ticket("Persona dispersa", "Non so se questo è il posto giusto, ma non trovo più Minnie.", users.get(1), Status.DONE));
 
 				ticketRepository.saveAll(tickets);
 			}
