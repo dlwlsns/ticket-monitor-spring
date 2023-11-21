@@ -23,7 +23,7 @@ public class JsonTicketController {
     }
 
     @GetMapping(value="/tickets/{id}")
-    public ResponseEntity<Ticket> getTicket(@PathVariable String id) {
+    public ResponseEntity<Ticket> getTicket(@PathVariable long id) {
         Optional<Ticket> ticket = ticketService.getTicket(id);
 
         if(ticket.isEmpty())
@@ -41,7 +41,7 @@ public class JsonTicketController {
     }
 
     @PutMapping(value="/tickets/{id}")
-    public ResponseEntity<Ticket> put(@RequestBody Ticket ticket, @PathVariable String id){
+    public ResponseEntity<Ticket> put(@RequestBody Ticket ticket, @PathVariable long id){
         Optional<Ticket> ticketData = ticketService.put(ticket, id);
 
         return ticketData
@@ -50,7 +50,7 @@ public class JsonTicketController {
     }
 
     @DeleteMapping(value="/tickets/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<?> delete(@PathVariable long id) {
         if(this.ticketService.delete(id))
             return new ResponseEntity<>("{success:true}", HttpStatus.OK);
         else

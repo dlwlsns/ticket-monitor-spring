@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String> {
-    public Optional<User> findUserById(String id);
+public interface UserRepository extends CrudRepository<User, Long> {
+    public Optional<User> findUserById(long id);
     @Query(value = "SELECT * FROM user", nativeQuery = true)
     public List<User> findUsers();
 }

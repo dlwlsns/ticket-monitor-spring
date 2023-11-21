@@ -3,12 +3,15 @@ package ch.supsi.webapp.web.model;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String surname;
     private String username;
@@ -16,7 +19,6 @@ public class User {
     private String hash_psw;
 
     public User(){
-        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.salt = RandomStringUtils.randomAlphanumeric(20);
         this.hash_psw = RandomStringUtils.randomAlphanumeric(20);
 
@@ -26,7 +28,6 @@ public class User {
     }
 
     public User(String name, String surname, String username) {
-        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.salt = RandomStringUtils.randomAlphanumeric(20);
         this.hash_psw = RandomStringUtils.randomAlphanumeric(20);
         //this.id = RandomStringUtils.randomAlphanumeric(8);
@@ -35,11 +36,11 @@ public class User {
         this.username = username;
     }
 
-    public String getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

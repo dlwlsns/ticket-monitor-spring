@@ -7,69 +7,102 @@
         <meta name="author" content="Davide Ravani">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}" media="screen"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <title th:text="${'Ticket ' + ticket.id}">Ticket ID</title>
     </head>
 
     <body>
-        <header  class="header">
-            <img th:src="@{/img/logo_supsi.png}" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
+        <!-- HEADER -->
+        <div th:replace="fragments :: header('ticketDetails')"></div>
 
-            <nav class="header-left">
-                <a th:href="@{/}" class="active">Home</a>
-                <a th:href="@{/ticket/new}">Add Ticket</a>
-            </nav>
-        </header>
+        <!-- MAIN -->
+        <main class="d-flex flex-nowrap h-100 d-inline-block"><!--  -->
+            <div class="container fluid flex-column">
+                <section class="content">
+                    <div class="row">
+                        <h2 th:text="${'Ticket #' + ticket.id}">Ticket details</h2>
 
-        <main>
-            <h1 th:text="${'Ticket #' + ticket.id}">Ticket ID</h1>
-            <form method="post" th:action="@{'/ticket/' + ${ticket.id} + '/edit'}" class="form">
-                <label>Title</label>
-                <input type="text" id="title" name="title" th:value="${ticket.title}" required pattern="\S+.*" th:disabled="${!editable}"><br>
+                        <hr>
 
-                <label>Status</label>
-                <select name="status" required th:disabled="${!editable}">
-                    <option th:each="status : ${T(ch.supsi.webapp.web.model.Status).values()}"
-                            th:value="${status}"
-                            th:text="${status}"
-                            th:selected="${status.toString() == ticket.status.toString()}">
-                    </option>
-                </select><br>
+                        <div class="padding">
+                            <form method="post" th:action="@{'/ticket/' + ${ticket.id} + '/edit'}" class="form" enctype="multipart/form-data">
+                                <h5>Details</h5>
 
-                <label>Author</label>
-                <select name="author" required th:disabled="${!editable}">
-                    <option th:each="author : ${authors}"
-                            th:value="${author.id}"
-                            th:text="${author.name + ' ' + author.surname}"
-                            th:selected="${ticket.author.id==author.id}">
-                    </option>
-                </select><br>
+                                <hr>
 
-                <label>Date</label>
-                <input type="date" id="date" name="date" th:value="${ticket.date}" required disabled><br>
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" th:value="${ticket.title}" required th:disabled="${!editable}">
+                                </div><br>
 
-                <label>Type</label>
-                <select name="type" required th:disabled="${!editable}">
-                    <option th:each="type : ${T(ch.supsi.webapp.web.model.Type).values()}"
-                            th:value="${type}"
-                            th:text="${type}"
-                            th:selected="${type.toString() == ticket.type.toString()}">
-                    </option>
-                </select><br>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status" required th:disabled="${!editable}">
+                                        <option th:each="status : ${T(ch.supsi.webapp.web.model.Status).values()}"
+                                                th:value="${status}"
+                                                th:text="${status}"
+                                                th:selected="${status.toString() == ticket.status.toString()}">
+                                        </option>
+                                    </select>
+                                </div><br>
 
-                <label>Description</label>
-                <textarea id="description" name="description" rows="4" cols="50" th:text="${ticket.description}" required th:disabled="${!editable}">Description</textarea><br>
+                                <div class="form-group">
+                                    <label for="author">Author</label>
+                                    <select class="form-control" id="author" name="author" required th:disabled="${!editable}">
+                                        <option th:each="author : ${authors}"
+                                                th:value="${author.id}"
+                                                th:text="${author.name + ' ' + author.surname}"
+                                                th:selected="${ticket.author.id==author.id}">
+                                        </option>
+                                    </select>
+                                </div><br>
 
-                <a class="button edit" th:href="@{'/ticket/' + ${ticket.id} + '/edit'}" th:if="${!editable}">Edit</a>
-                <input type="submit" value="Save" th:if="${editable}">
-                <a class="button edit" th:href="@{'/ticket/' + ${ticket.id}}" th:if="${editable}">Cancel</a>
-                <a class="button delete" th:href="@{'/ticket/' + ${ticket.id} + '/delete'}">Delete</a>
-            </form>
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input class="form-control" type="date" id="date" name="date" th:value="${ticket.date}" required disabled>
+                                </div><br>
+
+                                <div class="form-group">
+                                    <label for="type">Type</label>
+                                    <select class="form-control" id="type" name="type" required th:disabled="${!editable}">
+                                        <option th:each="type : ${T(ch.supsi.webapp.web.model.Type).values()}"
+                                                th:value="${type}"
+                                                th:text="${type}"
+                                                th:selected="${type.toString() == ticket.type.toString()}">
+                                        </option>
+                                    </select>
+                                </div><br>
+
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" th:text="${ticket.description}" th:disabled="${!editable}"></textarea>
+                                </div><br>
+
+
+                                <div class="form-group">
+                                    <label for="attachment">Attachment</label>
+                                    <input type="file" class="form-control-file" id="attachment" name="attachment" th:if="${editable}">
+                                    <a class="btn btn-primary" th:href="@{'/ticket/' + ${ticket.id} + '/download'}" role="button" download th:if="${ticket.attachment != null && !editable}">Download</a>
+                                    <strong  th:if="${ticket.attachment == null && !editable}">None</strong>
+                                </div><br>
+
+
+                                <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id} + '/edit'}" th:if="${!editable}">Edit</a>
+
+                                <input class="btn btn-primary" type="submit" value="Save" th:if="${editable}">
+                                <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id}}" th:if="${editable}">Cancel</a>
+
+                                <a class="btn btn-danger" th:href="@{'/ticket/' + ${ticket.id} + '/delete'}">Delete</a>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
 
-        <footer> <!-- site wide footer -->
-            <small>Copyleft CC-by 2022 by Ravani D.</small>
-        </footer>
+        <!-- FOOTER -->
+        <div th:replace="fragments :: footer"></div>
     </body>
 </html>

@@ -19,7 +19,7 @@ public class UserService {
         return this.userRepository.findUsers();
     }
 
-    public Optional<User> getUser(@PathVariable String id) {
+    public Optional<User> getUser(@PathVariable long id) {
         return this.userRepository.findUserById(id);
     }
 
@@ -27,25 +27,15 @@ public class UserService {
         return Optional.of(userRepository.save(user));
     }
 
-    public Optional<User> put(@RequestBody User user, @PathVariable String id){
+    public Optional<User> put(@RequestBody User user, @PathVariable long id){
+        userRepository.save(user);
+
         Optional<User> currentUser = userRepository.findById(id);
-
-        if (currentUser.isPresent()) {
-            User newUser = currentUser.get();
-            newUser.setName(user.getName());
-            newUser.setSurname(user.getSurname());
-            newUser.setSurname(user.getUsername());
-
-            currentUser = Optional.of(newUser);
-
-            this.delete(id);
-            this.post(newUser);
-        }
 
         return currentUser;
     }
 
-    public boolean delete(@PathVariable String id) {
+    public boolean delete(@PathVariable long id) {
         this.userRepository.deleteById(id);
 
         Optional<User> userData = userRepository.findById(id);

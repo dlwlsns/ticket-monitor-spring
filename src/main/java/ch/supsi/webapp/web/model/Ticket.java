@@ -9,7 +9,8 @@ import java.time.LocalTime;
 @Entity
 public class Ticket {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -22,9 +23,11 @@ public class Ticket {
     private Type type;
     private LocalDate date;
     private LocalTime time;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "attachment_id")
+    private Attachment attachment;
 
     public Ticket() {
-        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.title = "";
         this.description = "";
         this.author = null;
@@ -35,7 +38,6 @@ public class Ticket {
     }
 
     public Ticket(String title, String description, User author, Type type) {
-        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.title = title;
         this.description = description;
         this.author = author;
@@ -46,7 +48,6 @@ public class Ticket {
     }
 
     public Ticket(String title, String description, User author, Status status, Type type) {
-        this.id = RandomStringUtils.randomAlphanumeric(8);
         this.title = title;
         this.description = description;
         this.author = author;
@@ -56,11 +57,11 @@ public class Ticket {
         this.date = LocalDate.now();
     }
 
-    public void setId(String id){
+    public void setId(long id){
         this.id = id;
     }
 
-    public String getId(){
+    public long getId(){
         return this.id;
     }
 
@@ -110,5 +111,13 @@ public class Ticket {
 
     public LocalTime getTime() {
         return this.time;
+    }
+
+    public Attachment getAttachment() {
+        return this.attachment;
+    }
+
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
     }
 }

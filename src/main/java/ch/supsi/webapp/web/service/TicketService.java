@@ -18,7 +18,7 @@ public class TicketService {
         return this.ticketRepository.findTickets();
     }
 
-    public Optional<Ticket> getTicket(@PathVariable String id) {
+    public Optional<Ticket> getTicket(@PathVariable long id) {
         return this.ticketRepository.findTicketById(id);
     }
 
@@ -26,28 +26,14 @@ public class TicketService {
         return Optional.of(ticketRepository.save(ticket));
     }
 
-    public Optional<Ticket> put(@RequestBody Ticket ticket, @PathVariable String id){
+    public Optional<Ticket> put(@RequestBody Ticket ticket, @PathVariable long id){
+        ticketRepository.save(ticket);
+
         Optional<Ticket> currentTicket = ticketRepository.findById(id);
-
-        if (currentTicket.isPresent()) {
-            Ticket newTicket = currentTicket.get();
-            newTicket.setTitle(ticket.getTitle());
-            newTicket.setDescription(ticket.getDescription());
-            //TODO: check if user exists
-            newTicket.setAuthor(ticket.getAuthor());
-            newTicket.setStatus(ticket.getStatus());
-            newTicket.setType(ticket.getType());
-
-            currentTicket = Optional.of(newTicket);
-
-            this.delete(id);
-            this.post(newTicket);
-        }
-
         return currentTicket;
     }
 
-    public boolean delete(@PathVariable String id) {
+    public boolean delete(@PathVariable long id) {
         this.ticketRepository.deleteById(id);
 
         Optional<Ticket> ticketData = ticketRepository.findById(id);

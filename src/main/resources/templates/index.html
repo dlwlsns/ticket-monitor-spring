@@ -7,50 +7,65 @@
         <meta name="author" content="Davide Ravani">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}" media="screen"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <title>Home</title>
     </head>
     <body>
-        <header  class="header">
-            <img th:src="@{/img/logo_supsi.png}" alt="Scuola universitaria professionale della Svizzera italiana" width="165px" height="71px">
 
-            <nav class="header-left">
-                <a th:href="@{/}" class="active">Home</a>
-                <a th:href="@{/ticket/new}">Add Ticket</a>
-            </nav>
-        </header>
+        <!-- HEADER -->
+        <div th:replace="fragments :: header('index')"></div>
 
-        <main class="container">
-            <section id="ticket-list">
-                <h2>List of tickets</h2>
-                <article class="ticket first" th:each="ticket: ${tickets}">
-                    <h3 th:text="${ticket.title}"></h3>
+        <!-- MAIN -->
+        <main class="d-flex flex-nowrap h-100 d-inline-block"><!--  -->
+            <div class="container fluid flex-column">
+                <section class="content">
+                    <div class="row">
+                        <!-- TICKETS -->
+                        <div class="col-md-12">
+                            <div class="grid support-content">
+                                <div class="grid-body">
+                                    <h2>Tickets</h2>
 
-                    <select id="state" name="state" disabled class="state" th:classappend="${ticket.status.toString().toLowerCase().replace(' ', '-')}">
-                        <option th:each="status : ${T(ch.supsi.webapp.web.model.Status).values()}"
-                                th:value="${status}"
-                                th:text="${status}"
-                                th:selected="${status.toString() == ticket.status.toString()}">
-                        </option>
-                    </select>
+                                    <hr>
 
-                    <a class="tag" th:text="${'#' + ticket.id}" th:href="@{'/ticket/' + ${ticket.id}}">#ID</a>
+                                    <div class="padding"></div>
 
-                    <span th:text="${ticket.date}">Date</span>
+                                    <div class="row">
+                                        <!-- BEGIN TICKET CONTENT -->
+                                        <div class="col-md-12">
+                                            <ul class="list-group fa-padding">
+                                                <li class="list-group-item" data-toggle="modal" data-target="#issue" th:each="ticket: ${tickets}">
+                                                    <div class="media">
+                                                        <i class="fa fa-cog pull-left"></i>
+                                                        <div class="media-body">
+                                                            <strong th:text="${ticket.title}">Title</strong>
+                                                            <span class="badge bg-primary" th:text="${ticket.status}">IMPORTANT</span>
+                                                            <a class="number pull-right" th:text="${'#' + ticket.id}" th:href="@{'/ticket/' + ${ticket.id}}"># 13698</a>
+                                                            <p class="info">Opened by
+                                                                <a href="#" th:text="${ticket.author.name + ' ' + ticket.author.surname}">jwilliams</a>
+                                                                <span th:text=" ${ticket.date}"> Date</span>
+                                                                <i class="fa fa-comments"></i><span th:text="${#strings.abbreviate(ticket.description,20)}">2 comments</span></p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                    <p th:text="${#strings.abbreviate(ticket.description,20)}">Description</p>
-                </article>
-            </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
 
-            <aside class="aside">
-                <h2>Side</h2>
-                <p>Questa è la mia sidebar, al momento è vuota.</p>
-            </aside>
+            <!-- SIDEBAR -->
+            <div th:replace="fragments :: sidebar"></div>
+
         </main>
 
-        <footer> <!-- site wide footer -->
-            <small>Copyleft CC-by 2022 by Ravani D.</small>
-        </footer>
+        <!-- FOOTER -->
+        <div th:replace="fragments :: footer"></div>
     </body>
 </html>
