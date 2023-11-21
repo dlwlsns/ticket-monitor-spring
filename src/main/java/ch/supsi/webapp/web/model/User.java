@@ -1,11 +1,8 @@
 package ch.supsi.webapp.web.model;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -14,26 +11,26 @@ public class User {
     private long id;
     private String name;
     private String surname;
+    @Column(unique = true)
     private String username;
-    private String salt;
-    private String hash_psw;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    private String password;
 
-    public User(){
-        this.salt = RandomStringUtils.randomAlphanumeric(20);
-        this.hash_psw = RandomStringUtils.randomAlphanumeric(20);
+    public static BCryptPasswordEncoder PSW_ENCODER = new BCryptPasswordEncoder();
 
-        this.name = "";
-        this.surname = surname = "";
-        this.username = username = "";
+    public User(){}
+
+    public User(String username, String password) {
+        this.username = username;
+        this.setPassword(password);
     }
 
-    public User(String name, String surname, String username) {
-        this.salt = RandomStringUtils.randomAlphanumeric(20);
-        this.hash_psw = RandomStringUtils.randomAlphanumeric(20);
-        //this.id = RandomStringUtils.randomAlphanumeric(8);
+    public User(String name, String surname, String username, String password) {
         this.name = name;
         this.surname = surname;
         this.username = username;
+        this.setPassword(password);
     }
 
     public long getId() {
@@ -68,15 +65,19 @@ public class User {
         this.username = username;
     }
 
-    private String getSalt() {
-        return this.salt;
+    public Role getRole() {
+        return this.role;
     }
 
-    private String getHash_psw() {
-        return this.hash_psw;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    private void setHash_psw(String hash_psw) {
-        this.hash_psw = hash_psw;
+    public String getPassword() {
+        return this.password;
+    }
+
+    private void setPassword(String password) {
+        this.password = User.PSW_ENCODER.encode(password);
     }
 }

@@ -17,7 +17,7 @@
         <div th:replace="fragments :: header('ticketDetails')"></div>
 
         <!-- MAIN -->
-        <main class="d-flex flex-nowrap h-100 d-inline-block"><!--  -->
+        <main class="d-flex flex-nowrap h-100 d-inline-block">
             <div class="container fluid flex-column">
                 <section class="content">
                     <div class="row">
@@ -49,7 +49,7 @@
 
                                 <div class="form-group">
                                     <label for="author">Author</label>
-                                    <select class="form-control" id="author" name="author" required th:disabled="${!editable}">
+                                    <select class="form-control" id="author" name="author" required disabled>
                                         <option th:each="author : ${authors}"
                                                 th:value="${author.id}"
                                                 th:text="${author.name + ' ' + author.surname}"
@@ -83,18 +83,19 @@
 
                                 <div class="form-group">
                                     <label for="attachment">Attachment</label>
-                                    <input type="file" class="form-control-file" id="attachment" name="attachment" th:if="${editable}">
-                                    <a class="btn btn-primary" th:href="@{'/ticket/' + ${ticket.id} + '/download'}" role="button" download th:if="${ticket.attachment != null && !editable}">Download</a>
+                                    <input type="file" class="form-control" id="attachment" name="attachment" th:if="${editable}">
+                                    <a class="btn btn-primary" th:href="@{'/ticket/' + ${ticket.id} + '/download'}" role="button" download th:if="${ticket.attachment != null and !editable}">Download</a>
                                     <strong  th:if="${ticket.attachment == null && !editable}">None</strong>
                                 </div><br>
 
+                                <div th:if="${#authorization.expression('hasRole(''ROLE_USER'') || hasRole(''ROLE_ADMIN'')')}">
+                                    <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id} + '/edit'}" th:unless="${editable}">Edit</a>
 
-                                <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id} + '/edit'}" th:if="${!editable}">Edit</a>
+                                    <input class="btn btn-primary" type="submit" value="Save" th:if="${editable}">
+                                    <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id}}" th:if="${editable}">Cancel</a>
 
-                                <input class="btn btn-primary" type="submit" value="Save" th:if="${editable}">
-                                <a class="btn btn-warning" th:href="@{'/ticket/' + ${ticket.id}}" th:if="${editable}">Cancel</a>
-
-                                <a class="btn btn-danger" th:href="@{'/ticket/' + ${ticket.id} + '/delete'}">Delete</a>
+                                    <a class="btn btn-danger" th:href="@{'/ticket/' + ${ticket.id} + '/delete'}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Delete</a>
+                                </div>
                             </form>
                         </div>
                     </div>

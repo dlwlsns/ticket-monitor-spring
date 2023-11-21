@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     public Optional<User> findUserById(long id);
+    public Optional<User> findUserByUsername(String username);
     @Query(value = "SELECT * FROM user", nativeQuery = true)
     public List<User> findUsers();
 }

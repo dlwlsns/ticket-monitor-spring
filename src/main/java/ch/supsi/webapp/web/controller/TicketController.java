@@ -6,6 +6,7 @@ import ch.supsi.webapp.web.service.TicketService;
 import ch.supsi.webapp.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,18 +74,12 @@ public class TicketController {
     @PostMapping(value="/ticket/new")
     public String postNewTicket(@RequestParam("title") String title,
                                 @RequestParam("type") String type,
-                                @RequestParam("author") long authorId,
                                 @RequestParam("description") String description,
-                                @RequestParam("attachment") MultipartFile attachment,
-                                Model model) throws IOException {
-        Optional<User> author = this.userService.getUser(authorId);
+                                @RequestParam("attachment") MultipartFile attachment) throws IOException {
 
-        if(author.isEmpty()) {
-            model.addAttribute("thing", "Author");
-            return "notFound";
-        }
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Ticket ticket = new Ticket(title, description, author.get(), Type.fromValue(type));
+        Ticket ticket = new Ticket(title, description, userService.getUser(user.getUsername()).get(), Type.fromValue(type));
 
         if(!attachment.isEmpty()){
             Attachment a = new Attachment(
@@ -93,7 +88,6 @@ public class TicketController {
                     attachment.getContentType());
 
             ticket.setAttachment(attachmentService.post(a).get());
-            System.out.print("new attachment" + ticket.getAttachment().getId());
         }
 
         this.ticketService.post(ticket);
@@ -129,7 +123,6 @@ public class TicketController {
                                  @RequestParam("title") String title,
                                  @RequestParam("status") String status,
                                  @RequestParam("type") String type,
-                                 @RequestParam("author") long authorId,
                                  @RequestParam("description") String description,
                                  @RequestParam("attachment") MultipartFile attachment,
                                  Model model) throws IOException {
@@ -140,17 +133,9 @@ public class TicketController {
             return "notFound";
         }
 
-        Optional<User> author = this.userService.getUser(authorId);
-
-        if(author.isEmpty()) {
-            model.addAttribute("thing", "Author");
-            return "notFound";
-        }
-
         Ticket t = ticket.get();
         t.setTitle(title);
         t.setDescription(description);
-        t.setAuthor(author.get());
         t.setStatus(Status.fromValue(status));
         t.setType(Type.fromValue(type));
 
