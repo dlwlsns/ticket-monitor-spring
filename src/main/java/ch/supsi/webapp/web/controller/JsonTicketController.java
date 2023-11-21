@@ -56,4 +56,16 @@ public class JsonTicketController {
         else
             return new ResponseEntity<Ticket>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value="/ticket/search")
+    public Ticket[] search(@RequestParam("q") String query) {
+        if(query.equals(""))
+            return get().toArray(Ticket[]::new);
+
+        return ticketService.get().stream().filter(t -> t.getTitle().matches("(?i).*" + query + ".*")
+                || t.getDescription().matches("(?i).*" + query + ".*")
+                || t.getAuthor().getName().matches("(?i).*" + query + ".*")
+                || t.getAuthor().getSurname().matches("(?i).*" + query + ".*")
+                || t.getAuthor().getUsername().matches("(?i).*" + query + ".*")).toArray(Ticket[]::new);
+    }
 }
